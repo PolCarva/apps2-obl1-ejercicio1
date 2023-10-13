@@ -1,8 +1,8 @@
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { data } from "../data/data";
 import ItemCard from "../components/ItemCard";
 import toast from "react-hot-toast";
-import { AiOutlineClose } from "react-icons/ai";
+import Cart from "../components/Cart"; // Importa el componente del carrito
 
 const SearchSection = () => {
   const categories = data.map((product) => product.category);
@@ -99,48 +99,18 @@ const SearchSection = () => {
               <p>
                 Cart <span>{itemsCart.length}</span>
               </p>
-              <div
-                onClick={toggleCart}
-                className={`${
-                  isCartOpen ? "visible" : "hidden"
-                } w-full h-full bg-black bg-opacity-20 fixed top-1/2 right-1/2 translate-x-1/2 -translate-y-1/2 flex justify-center items-center`}
-              >
-                <div
-                  onClick={(e) => {
-                    e.stopPropagation();
-                  }}
-                  className="bg-white rounded-lg w-[95%] md:w-1/2 h-2/3 overflow-y-auto p-4 cursor-default"
-                >
-                  <div className="flex justify-between">
-                    <h3>Your Cart</h3>
-                    <AiOutlineClose
-                      className="cursor-pointer"
-                      onClick={toggleCart}
-                    />
-                  </div>
-                  {itemsCart.length === 0 ? (
-                    <p className="text-center mt-5 text-slate-400 font-normal">
-                      No products here
-                    </p>
-                  ) : (
-                    itemsCart.map((item) => {
-                      return (
-                        <ItemCard
-                          key={item.id}
-                          id={item.id}
-                          img={item.img}
-                          title={item.title}
-                          onClickAddToCart={handleClickAddToCart}
-                        />
-                      );
-                    })
-                  )}
-                </div>
-              </div>
             </div>
+            <Cart
+              isCartOpen={isCartOpen}
+              toggleCart={toggleCart}
+              itemsCart={itemsCart}
+              handleClickAddToCart={handleClickAddToCart}
+            />
           </div>
         </div>
-        <span className="py-5 text-left md:text-center">{products.length} products found</span>
+        <span className="py-5 text-left md:text-center">
+          {products.length} products found
+        </span>
         <div className="flex w-full md:w-2/3 mx-auto flex-wrap">
           {products.map((product) => {
             return (
